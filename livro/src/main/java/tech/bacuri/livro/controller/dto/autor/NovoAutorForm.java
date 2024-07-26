@@ -7,7 +7,7 @@ import lombok.Data;
 import tech.bacuri.livro.entity.Autor;
 
 @Data
-public class AutorForm {
+public class NovoAutorForm {
     @NotBlank
     private String nome;
 
