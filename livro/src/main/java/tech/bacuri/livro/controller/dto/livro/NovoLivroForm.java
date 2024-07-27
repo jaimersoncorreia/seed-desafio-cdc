@@ -1,4 +1,4 @@
-package tech.bacuri.livro.controller;
+package tech.bacuri.livro.controller.dto.livro;
 
 import jakarta.validation.constraints.*;
 import lombok.Builder;
