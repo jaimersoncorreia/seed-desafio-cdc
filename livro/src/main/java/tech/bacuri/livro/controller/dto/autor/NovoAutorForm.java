@@ -19,11 +19,10 @@ public class NovoAutorForm {
     private String descricao;
 
     public Autor toAutorResponse() {
-        Autor build = Autor.builder()
+        return Autor.builder()
                 .nome(nome)
                 .email(email)
                 .descricao(descricao)
                 .build();
-        return build;
     }
 }
