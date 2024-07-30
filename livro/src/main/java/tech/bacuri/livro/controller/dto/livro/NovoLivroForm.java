@@ -41,7 +41,7 @@ public class NovoLivroForm {
 
     @Future
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate publicacao;
+    private LocalDate dataPublicacao;
 
     @NotNull
     @ExistsId(domainClass = Categoria.class, fieldName = "id")
@@ -60,7 +60,7 @@ public class NovoLivroForm {
                 .preco(getPreco())
                 .numeroPagina(getNumeroPagina())
                 .isbn(getIsbn())
-                .publicacao(getPublicacao())
+                .dataPublicacao(getDataPublicacao())
                 .categoria(Categoria.builder().id(getIdCategoria()).build())
                 .autor(Autor.builder().id(getIdAutor()).build())
                 .build();

@@ -45,7 +45,7 @@ public class Livro {
 
     @Future
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate publicacao;
+    private LocalDate dataPublicacao;
 
     @NotNull
     @ManyToOne
