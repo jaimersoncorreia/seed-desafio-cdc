@@ -8,8 +8,9 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Objects;
 
-public class ExistsIdValidator implements ConstraintValidator<ExistsId, Object> {
+public class ExistsIdValidator implements ConstraintValidator<ExistsId, Integer> {
 
     private String domainAtribute;
     private Class<?> klass;
@@ -24,7 +25,10 @@ public class ExistsIdValidator implements ConstraintValidator<ExistsId, Object> 
     }
 
     @Override
-    public boolean isValid(Object value, ConstraintValidatorContext context) {
+    public boolean isValid(Integer value, ConstraintValidatorContext context) {
+        if (Objects.isNull(value))
+            return true;
+
         String sql = String.format("select 1 from %s where %s = :value", klass.getSimpleName(), domainAtribute);
         Query query = manager.createQuery(sql);
         query.setParameter("value", value);
