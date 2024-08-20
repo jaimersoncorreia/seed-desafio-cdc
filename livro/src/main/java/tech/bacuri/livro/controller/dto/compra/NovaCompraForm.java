@@ -38,11 +38,11 @@ public class NovaCompraForm {
 
     @NotNull
     @ExistsId(domainClass = Pais.class, fieldName = "id")
-    private Integer pais;
+    private Integer idPais;
 
     @NotNull
     @ExistsId(domainClass = Estado.class, fieldName = "id")
-    private Integer estado; //(caso aquele pais tenha estado)
+    private Integer idEstado; //(caso aquele pais tenha estado)
 
     @NotBlank
     private String telefone;

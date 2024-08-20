@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -25,4 +27,12 @@ public class Estado {
     @NotNull
     @ManyToOne
     private Pais pais;
+
+    public boolean pertenceA(Pais pais) {
+        return Objects.equals(pais, this.pais);
+    }
+
+    public boolean naoPertenceA(Pais pais) {
+        return !pertenceA(pais);
+    }
 }

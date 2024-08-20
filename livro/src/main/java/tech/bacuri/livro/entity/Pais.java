@@ -2,15 +2,13 @@ package tech.bacuri.livro.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
+@EqualsAndHashCode
 @Entity
 @SequenceGenerator(sequenceName = "SQ_PAIS", allocationSize = 1, name = "pais")
 public class Pais {
