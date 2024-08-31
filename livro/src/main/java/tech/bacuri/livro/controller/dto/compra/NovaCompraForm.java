@@ -12,6 +12,7 @@ import tech.bacuri.livro.controller.dto.pedido.NovoPedidoForm;
 import tech.bacuri.livro.entity.Compra;
 import tech.bacuri.livro.entity.Estado;
 import tech.bacuri.livro.entity.Pais;
+import tech.bacuri.livro.repository.LivroRepository;
 
 import java.util.Objects;
 
@@ -45,8 +46,7 @@ public class NovaCompraForm {
     @ExistsId(domainClass = Pais.class, fieldName = "id")
     private Integer idPais;
 
-    //    @NotNull
-//    @ExistsId(domainClass = Estado.class, fieldName = "id")
+    @ExistsId(domainClass = Estado.class, fieldName = "id")
     private Integer idEstado; //(caso aquele pais tenha estado)
 
     @NotBlank
@@ -59,8 +59,12 @@ public class NovaCompraForm {
     @NotNull
     private NovoPedidoForm pedido;
 
-    public Compra toModel() {
-        var compra = Compra.builder()
+    public Compra toModel(LivroRepository livroRepository) {
+        Pais pais = Pais.builder().id(idPais).build();
+
+        var funcaoCriaPedido = pedido.toModel(livroRepository);
+
+        var compraBuilder = Compra.builder()
                 .email(email)
                 .nome(nome)
                 .sobrenome(sobrenome)
@@ -69,12 +73,17 @@ public class NovaCompraForm {
                 .complemento(complemento)
                 .cep(cep)
                 .cidade(cidade)
-                .pais(Pais.builder().id(idPais).build());
+                .telefone(telefone)
+                .pais(pais);
 
         if (!Objects.isNull(idEstado))
-            compra.estado(Estado.builder().id(idEstado).build());
+            compraBuilder.estado(Estado.builder().id(idEstado).build());
 
-        return compra.build();
+        Compra compra = compraBuilder.build();
+        compra.processarPedido(funcaoCriaPedido);
+
+        System.out.println(funcaoCriaPedido);
+        return compra;
     }
 
     public boolean temEstado() {

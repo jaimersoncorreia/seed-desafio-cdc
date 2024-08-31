@@ -1,19 +1,29 @@
 package tech.bacuri.livro.entity;
 
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import tech.bacuri.livro.annotation.CpfOrCnpj;
-import tech.bacuri.livro.annotation.ExistsId;
-import tech.bacuri.livro.controller.dto.pedido.NovoPedidoForm;
 
+import java.util.function.Function;
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Data
+@Entity
+@SequenceGenerator(sequenceName = "SQ_COMPRA", allocationSize = 1, name = "compra")
 public class Compra {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "compra")
+    private Integer id;
+
     @Email
     @NotBlank
     private String email;
@@ -38,12 +48,9 @@ public class Compra {
     private String cidade;
 
     @NotNull
-    @ExistsId(domainClass = Pais.class, fieldName = "id")
     @ManyToOne
     private Pais pais;
 
-    @NotNull
-    @ExistsId(domainClass = Estado.class, fieldName = "id")
     @ManyToOne
     private Estado estado; //(caso aquele pais tenha estado)
 
@@ -53,7 +60,14 @@ public class Compra {
     @NotBlank
     private String cep;
 
+
     @Valid
     @NotNull
-    private NovoPedidoForm pedido;
+    @OneToOne(mappedBy = "compra", cascade = CascadeType.PERSIST)
+    private Pedido pedido;
+
+    public void processarPedido(Function<Compra, Pedido> funcaoCriaPedido) {
+        this.pedido = funcaoCriaPedido.apply(this);
+    }
+
 }
