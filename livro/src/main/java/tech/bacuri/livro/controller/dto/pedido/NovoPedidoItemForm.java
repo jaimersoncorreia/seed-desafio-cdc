@@ -26,7 +26,7 @@ public class NovoPedidoItemForm {
         return ItemPedido.builder()
                 .livro(livro)
                 .quantidade(quantidade)
-                .precoMomento(livro.getPreco().setScale(4, RoundingMode.HALF_EVEN))
+                .precoMomento(livro.getPreco().setScale(2, RoundingMode.HALF_EVEN))
                 .build();
     }
 }

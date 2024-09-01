@@ -28,7 +28,7 @@ public class ItemPedido {
     private BigDecimal precoMomento;
 
     public BigDecimal total() {
-        return precoMomento.multiply(BigDecimal.valueOf(quantidade)).setScale(4, RoundingMode.HALF_EVEN);
+        return precoMomento.multiply(BigDecimal.valueOf(quantidade)).setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public BigDecimal getTotal() {

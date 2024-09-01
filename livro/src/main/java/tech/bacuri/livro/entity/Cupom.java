@@ -38,4 +38,12 @@ public class Cupom {
         this.percentualDesconto = percentualDesconto;
         this.validade = validade;
     }
+
+    public boolean valido() {
+        return !LocalDate.now().isAfter(this.validade);
+    }
+
+    public boolean naoEhvalido() {
+        return !valido();
+    }
 }

@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 import java.util.List;
 import java.util.Objects;
 
-public class ExistsIdValidator implements ConstraintValidator<ExistsId, Integer> {
+public class ExistsIdValidator implements ConstraintValidator<ExistsId, Object> {
 
     private String domainAtribute;
     private Class<?> klass;
@@ -25,7 +25,7 @@ public class ExistsIdValidator implements ConstraintValidator<ExistsId, Integer>
     }
 
     @Override
-    public boolean isValid(Integer value, ConstraintValidatorContext context) {
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
         if (Objects.isNull(value))
             return true;
 

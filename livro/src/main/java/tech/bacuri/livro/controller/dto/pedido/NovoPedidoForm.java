@@ -37,7 +37,7 @@ public class NovoPedidoForm {
 
         return (compra) -> {
             Pedido pedido = new Pedido(compra, itensCalculados);
-            Assert.isTrue(pedido.totalIgual(total.setScale(4, RoundingMode.HALF_EVEN)), "Olha, o total enviado não corresponde ao enviado");
+            Assert.isTrue(pedido.totalIgual(total.setScale(2, RoundingMode.HALF_EVEN)), "Olha, o total enviado não corresponde ao enviado");
             return pedido;
         };
     }

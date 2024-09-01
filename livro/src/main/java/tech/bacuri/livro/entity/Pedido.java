@@ -46,7 +46,7 @@ public class Pedido {
         BigDecimal bigDecimal = itens.stream()
                 .map(ItemPedido::total)
                 .reduce(BigDecimal::add).orElse(BigDecimal.ZERO)
-                .setScale(4, RoundingMode.HALF_EVEN);
+                .setScale(2, RoundingMode.HALF_EVEN);
 
         System.out.println(bigDecimal);
         System.out.println(total);
