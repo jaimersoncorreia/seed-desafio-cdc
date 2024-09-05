@@ -48,9 +48,11 @@ public class Pedido {
                 .reduce(BigDecimal::add).orElse(BigDecimal.ZERO)
                 .setScale(2, RoundingMode.HALF_EVEN);
 
-        System.out.println(bigDecimal);
-        System.out.println(total);
         return bigDecimal.compareTo(total) == 0;
 
+    }
+
+    public BigDecimal getTotal() {
+        return itens.stream().map(ItemPedido::getTotal).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
     }
 }

@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 import tech.bacuri.livro.annotation.CpfOrCnpj;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Objects;
 import java.util.function.Function;
 
 @AllArgsConstructor
@@ -78,5 +81,22 @@ public class Compra {
         Assert.isTrue(cupom.valido(), "Olha, o cupom que está sendo aplicado não está mais válido");
         Assert.isNull(cupomAplicado, "Olha, você não pode trocar um cupom de uma compra");
         this.cupomAplicado = new CupomAplicado(cupom);
+    }
+
+    public BigDecimal getTotal() {
+        return pedido.getTotal();
+    }
+
+    public BigDecimal getTotalCupomAplicado() {
+        if (naoAplicado())
+            return getTotal();
+
+        var cemPorCento = new BigDecimal("100.00");
+        var percentualPago = cemPorCento.subtract(cupomAplicado.getPercentualDescontoMomento());
+        return getTotal().multiply(percentualPago).divide(cemPorCento, 2, RoundingMode.HALF_EVEN);
+    }
+
+    public boolean naoAplicado() {
+        return Objects.isNull(cupomAplicado);
     }
 }

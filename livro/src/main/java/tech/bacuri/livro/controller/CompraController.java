@@ -2,8 +2,10 @@ package tech.bacuri.livro.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import tech.bacuri.livro.controller.dto.DetalhesForm;
 import tech.bacuri.livro.controller.dto.compra.NovaCompraForm;
 import tech.bacuri.livro.entity.Compra;
 import tech.bacuri.livro.repository.CompraRepository;
@@ -31,7 +33,24 @@ public class CompraController {
 
     @PostMapping
     public Compra novaCompra(@Valid @RequestBody NovaCompraForm form) {
-        Compra novaCompra = form.toModel(livroRepository, cupomRepository);
+        var novaCompra = form.toModel(livroRepository, cupomRepository);
         return compraRepository.save(novaCompra);
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> detalhes(@PathVariable Integer id) {
+
+        var compraOptional = compraRepository.findById(id);
+        if (compraOptional.isEmpty())
+            throw new RuntimeException("Detalhes da compra não encontrado!");
+
+        var compra = compraOptional.get();
+
+        var cupomAplicado = compra.getTotalCupomAplicado();
+        var total = compra.getTotal();
+        var aplicado = !compra.naoAplicado();
+
+        var form = new DetalhesForm(total, cupomAplicado, aplicado);
+        return ResponseEntity.ok(form);
     }
 }
